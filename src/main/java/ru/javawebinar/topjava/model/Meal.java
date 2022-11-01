@@ -1,16 +1,36 @@
 package ru.javawebinar.topjava.model;
 
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+@NamedQueries(value = {
+        @NamedQuery(name = Meal.DELETE, query = "DELETE FROM Meal u WHERE u.id=:id AND u.user.id=:user_id"),
+        @NamedQuery(name = Meal.GET_ALL, query = "SELECT u FROM Meal u WHERE u.user.id=:userId ORDER BY u.dateTime DESC"),
+        @NamedQuery(name = Meal.BETWEEN_INCLUSIVE, query = "SELECT u FROM Meal u WHERE u.user.id=:user_id AND u.dateTime >=:start AND u.dateTime <:end ORDER BY u.dateTime DESC"),
+})
+
+@Entity
+@Table(name = "meals")
 public class Meal extends AbstractBaseEntity {
+    public static final String DELETE = "Meal.delete";
+    public static final String GET = "Meal.get";
+    public static final String GET_ALL = "Meal.getAll";
+    public static final String BETWEEN_INCLUSIVE = "Meal.betweenInclusive";
+
+
+    @Column(name = "date_time", nullable = false, unique = true)
+    @NotNull
     private LocalDateTime dateTime;
 
+    @Column(name = "description", nullable = false)
+    @NotNull
     private String description;
 
+    @Column(name = "calories", nullable = false)
+    @NotNull
     private int calories;
 
     @ManyToOne(fetch = FetchType.LAZY)
