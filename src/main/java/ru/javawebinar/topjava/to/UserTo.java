@@ -68,6 +68,10 @@ public class UserTo extends BaseTo implements Serializable {
         return id == null;
     }
 
+    public void setCaloriesPerDay(Integer caloriesPerDay) {
+        this.caloriesPerDay = caloriesPerDay;
+    }
+
     public Integer getCaloriesPerDay() {
         return caloriesPerDay;
     }
